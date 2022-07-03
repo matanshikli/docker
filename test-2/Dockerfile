@@ -1,0 +1,15 @@
+FROM ubuntu
+
+RUN apt-get update
+RUN apt-get install curl -y
+RUN apt-get install -y python-is-python3
+RUN apt-get install -y python3-pip
+RUN curl https://dl.google.com/dl/cloudsdk/release/google-cloud-sdk.tar.gz > /tmp/google-cloud-sdk.tar.gz
+RUN mkdir -p /usr/local/gcloud \
+  && tar -C /usr/local/gcloud -xvf /tmp/google-cloud-sdk.tar.gz \
+  && /usr/local/gcloud/google-cloud-sdk/install.sh
+ENV PATH $PATH:/usr/local/gcloud/google-cloud-sdk/bin
+
+COPY echo.sh /opt/echo.sh
+
+ENTRYPOINT bash /opt/echo.sh
